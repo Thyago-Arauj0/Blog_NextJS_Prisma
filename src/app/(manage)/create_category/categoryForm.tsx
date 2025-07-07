@@ -5,10 +5,12 @@ import createCategory from "@/lib/category/createCategory"
 import { useEffect, useState } from 'react';
 import { useActionState } from 'react';
 import { AlertModal } from '@/components/alert';
+import { useRouter } from "next/navigation";
 
 export default function CategoryForm(){
 
   const [state, formAction, isPending] = useActionState(createCategory, null);
+  const router = useRouter()
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'success' | 'error' | 'info'>('success');
@@ -29,8 +31,12 @@ export default function CategoryForm(){
     }
     if(state?.success === true){
       showAlert('success', state?.message);
+
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 2000);
     }
-  }, [state])
+  }, [state, router])
 
   
   return(

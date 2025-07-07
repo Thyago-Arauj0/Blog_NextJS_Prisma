@@ -13,6 +13,7 @@
     "@prisma/extension-accelerate": "^2.0.1",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-visually-hidden": "^1.2.3",
+    "@tinymce/tinymce-react": "^6.2.1",
     "bcrypt-ts": "^7.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -22,7 +23,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.4",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "tinymce": "^7.9.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

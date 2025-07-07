@@ -45,7 +45,9 @@ export default async function Dashboard(){
         {categories.length > 0 ? (
          <ul className="flex flex-wrap gap-3">
           {categories.map((category : Category) => (
-              <li key={category.id} className="rounded-xl border-2 p-2">{category.name}</li>
+            <Link href={`/edit_category/${category.name}`} key={category.id}>
+              <li className="rounded-xl border-2 p-2">{category.name}</li>
+            </Link>
           ))}
          </ul>
         ) :(
