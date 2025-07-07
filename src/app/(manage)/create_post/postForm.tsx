@@ -1,9 +1,9 @@
 // export default function PostForm({ categories = [] }) {
   export default function PostForm() {
   return (
-    <>
+    <div className="flex flex-col">
       <h2>Criar Post</h2>
-      <form action="/posts/create" method="POST" encType="multipart/form-data">
+      <form action="/posts/create" method="POST" encType="multipart/form-data" className="flex flex-col">
         <label htmlFor="title">Título:</label>
         <input type="text" id="title" name="title" required />
 
@@ -36,6 +36,6 @@
 
         <button type="submit">Criar</button>
       </form>
-    </>
+    </div>
   );
 }
