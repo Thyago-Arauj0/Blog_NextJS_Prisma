@@ -1,5 +1,6 @@
 import PostForm from "./postForm"
 import Link from "next/link"
+import createPost from "@/lib/post/createPost"
 
 export default function categoryPage(){
   return(
@@ -8,7 +9,7 @@ export default function categoryPage(){
       <button className="p-2 rounded-xl bg-gray-400 hover:scale-105 transition-all cursor-pointer">Voltar</button>
       </Link>
       <br />
-      <PostForm/>
+      <PostForm action={createPost} submitLabel="Criar Post"/>
     </div>
   )
 }

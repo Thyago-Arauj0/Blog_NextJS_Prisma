@@ -4,8 +4,10 @@ import { auth } from "../../../auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { Category } from "@/types/types"
+import Image from "next/image"
 
 import findAllCategory from "@/lib/category/findAllCategory"
+import findAllPost from "@/lib/post/findAllPost"
 
 export default async function Dashboard(){
   const session = await auth()
@@ -16,6 +18,7 @@ export default async function Dashboard(){
   }
 
   const categories = await findAllCategory()
+  const posts = await findAllPost()
 
   return(
   <div className="container mx-auto px-4">
@@ -55,6 +58,48 @@ export default async function Dashboard(){
         )}
       </div>
     </div>
+
+    <div className="p-3 mt-16">
+      <h2 className="font-bold text-xl">Postagens</h2>
+      <div className="mt-5">
+        {posts.length > 0 ? (
+            <ul className="flex flex-wrap gap-4 list-none p-0">
+              {posts
+                .filter((post) => post.published === true) // filtra os publicados
+                .map((post) => (
+                  <Link href={`/edit_post/${post.id}`} key={post.id}>
+                    <li className="w-72 border border-gray-300 rounded-xl p-4 bg-white shadow hover:shadow-md transition-shadow duration-300">
+                      <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+
+                      {/* <p className="text-sm text-gray-600 mb-3">
+                        {post. || 'Conteúdo resumido ou início do texto...'}
+                      </p> */}
+
+                      {post.imageUrl && (
+                        <Image
+                          src={post.imageUrl}
+                          alt="Imagem do post"
+                          width={50}
+                          height={50}
+                          className="w-full h-auto rounded-md mb-3"
+                        />
+                      )}
+
+                      <div className="flex justify-between text-xs text-gray-500">
+                        <span>Publicado em: {new Date(post.createdAt).toLocaleDateString()}</span>
+                        <span>Status: {post.published ? 'Publicado' : 'Rascunho'}</span>
+                      </div>
+                    </li>
+                  </Link>
+                ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500">Nenhum post publicado encontrado.</p>
+          )}
+
+      </div>
+    </div>
+
     </div>
   )
 }

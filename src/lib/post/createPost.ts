@@ -20,7 +20,7 @@ export default async function createPost(
       imageUrl: obj.imageUrl as string | undefined,
       audioUrl: obj.audioUrl as string | undefined,
       videoUrl: obj.videoUrl as string | undefined,
-      published: obj.published === 'true',  // converte string para boolean
+      published: obj.published === 'on',  // converte string para boolean
       categoryId: obj.categoryId as string
     };
 

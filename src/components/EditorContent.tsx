@@ -20,7 +20,7 @@ const EditorContent = forwardRef(({ onChange, value }: { onChange: (val: string)
     <Editor
       apiKey='bz3urjzlizvtdzbphi5hwa07np43jrclcx5zh1eerq72cobg'
       onInit={(_evt, editor) => editorRef.current = editor}
-      initialValue={value}
+      value={value}
       onEditorChange={(content) => onChange(content)}
       init={{
         height: 500,

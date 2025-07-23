@@ -4,17 +4,18 @@ import EditorContent from "@/components/EditorContent";
 import findAllCategory from "@/lib/category/findAllCategory";
 
 import Form from "next/form";
-import createPost from "@/lib/post/createPost";
 import { Category } from "@/types/types";
 import { useEffect, useState } from 'react';
 import { useActionState } from 'react';
 import { AlertModal } from '@/components/alert';
 import { useRouter } from "next/navigation";
 
-export default function PostForm() {
-   const [content, setContent] = useState('');
+import { PostFormProps } from "@/types/types";
+
+export default function PostForm({initialData = {}, action, submitLabel = "Salvar"}: PostFormProps) {
+   const [content, setContent] = useState(initialData.content || '');
    const [categories, setCategories] = useState<Category[]>([])
-   const [state, formAction, isPending] = useActionState(createPost, null);
+   const [state, formAction, isPending] = useActionState(action, null);
     const router = useRouter()
   
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,20 +52,24 @@ export default function PostForm() {
       }
       fetchData()
     }, [])
-    
 
+
+    console.log(initialData)
+    
 
   return (
     <div className="flex flex-col max-w-4xl mx-auto">
       <Form action={formAction}
         className="flex flex-col w-full"
       >
+        <input type="hidden" name="id" value={initialData.id || ''} />
         <label htmlFor="title">Título:</label>
         <input
           type="text"
           id="title"
           name="title"
           required
+          defaultValue={initialData.title || ''}
           className="border-none outline-0 bg-gray-200 p-2 rounded-xl"
         />
 
@@ -101,23 +106,25 @@ export default function PostForm() {
         />
 
         <label htmlFor="categoryId">Categoria:</label>
-        <select
-          name="categoryId"
-          id="categoryId"
-          className="border-none outline-0 bg-gray-200 p-2 rounded-xl"
-        >
-          <option value="">Nenhuma</option>
-          
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))} 
-         
-        </select>
+        {categories.length > 0 && (
+          <select
+            name="categoryId"
+            id="categoryId"
+            defaultValue={String(initialData.categoryId ?? "")}
+            className="border-none outline-0 bg-gray-200 p-2 rounded-xl"
+          >
+            <option value="">Nenhuma</option>
+            {categories.map((category) => (
+              <option key={category.id} value={String(category.id)}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        )}
+
 
         <label className="mt-2">
-          <input type="checkbox" name="published" className="mr-2" />
+          <input type="checkbox" name="published" defaultChecked={initialData.published ?? false} className="mr-2" />
           Publicado
         </label>
 
@@ -126,7 +133,7 @@ export default function PostForm() {
           disabled={isPending}
           className="mt-3 p-2 rounded-xl hover:scale-105 transition-all cursor-pointer bg-blue-400 font-semibold text-white disabled:opacity-50"
         >
-          {isPending ? "Criando..." : "Criar"}
+          {isPending ? "Salvando..." : submitLabel}
         </button>
       </Form>
       <AlertModal type={modalType} message={modalMessage} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
