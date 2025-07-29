@@ -2,6 +2,7 @@
 
 import db from "../db"
 import { auth } from "../../../auth"
+import { cloudinaryUpload } from "../cloudinaryUpload"
 
 export default async function updatePost(
   prevState: { message: string, success: boolean } | null,
@@ -10,20 +11,6 @@ export default async function updatePost(
   const session = await auth()
   const userId = session?.user?.id
 
-  const entries = Array.from(formData.entries())
-  const obj = Object.fromEntries(entries)
-
-  const data = {
-    id: obj.id as string,
-    title: obj.title as string,
-    content: obj.content as string,
-    imageUrl: obj.imageUrl as string | undefined,
-    audioUrl: obj.audioUrl as string | undefined,
-    videoUrl: obj.videoUrl as string | undefined,
-    published: obj.published === 'on',
-    categoryId: obj.categoryId as string
-  }
-
   if (!userId) {
     return {
       message: "Usuário não autenticado",
@@ -31,7 +18,17 @@ export default async function updatePost(
     }
   }
 
-  if (!data.id || !data.title || !data.content || data.published === undefined || !data.categoryId) {
+  const id = formData.get("id") as string
+  const title = formData.get("title") as string
+  const content = formData.get("content") as string
+  const categoryId = formData.get("categoryId") as string
+  const published = formData.get("published") === "on"
+
+  const imageFile = formData.get("image") as File | null
+  const audioFile = formData.get("audio") as File | null
+  const videoFile = formData.get("video") as File | null
+
+  if (!id || !title || !content || !categoryId) {
     return {
       message: "Preencha todos os campos obrigatórios!",
       success: false
@@ -40,7 +37,7 @@ export default async function updatePost(
 
   const post = await db.post.findUnique({
     where: {
-      id: Number(data.id),
+      id: Number(id),
       authorId: Number(userId)
     }
   })
@@ -52,23 +49,46 @@ export default async function updatePost(
     }
   }
 
-  await db.post.update({
-    where: {
-      id: Number(data.id)
-    },
-    data: {
-      title: data.title,
-      content: data.content,
-      imageUrl: data.imageUrl,
-      audioUrl: data.audioUrl,
-      videoUrl: data.videoUrl,
-      published: data.published,
-      categoryId: Number(data.categoryId)
-    }
-  })
+  try {
+    let imageUrl = post.imageUrl
+    let audioUrl = post.audioUrl
+    let videoUrl = post.videoUrl
 
-  return {
-    message: "Postagem atualizada com sucesso!",
-    success: true
+    // Se houver novo arquivo, faz upload e atualiza URL
+    if (imageFile && imageFile.size > 0) {
+      imageUrl = await cloudinaryUpload(imageFile, "image")
+    }
+    if (audioFile && audioFile.size > 0) {
+      audioUrl = await cloudinaryUpload(audioFile, "raw")
+    }
+    if (videoFile && videoFile.size > 0) {
+      videoUrl = await cloudinaryUpload(videoFile, "video")
+    }
+
+    await db.post.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        title,
+        content,
+        imageUrl,
+        audioUrl,
+        videoUrl,
+        published,
+        categoryId: Number(categoryId)
+      }
+    })
+
+    return {
+      message: "Postagem atualizada com sucesso!",
+      success: true
+    }
+  } catch (error) {
+    console.error("Erro ao atualizar postagem:", error)
+    return {
+      message: "Erro ao atualizar postagem.",
+      success: false
+    }
   }
 }

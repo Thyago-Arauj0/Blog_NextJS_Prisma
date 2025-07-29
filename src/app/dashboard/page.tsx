@@ -65,7 +65,7 @@ export default async function Dashboard(){
         {posts.length > 0 ? (
             <ul className="flex flex-wrap gap-4 list-none p-0">
               {posts
-                .filter((post) => post.published === true) // filtra os publicados
+                // .filter((post) => post.published === true) // filtra os publicados
                 .map((post) => (
                   <Link href={`/edit_post/${post.id}`} key={post.id}>
                     <li className="w-72 border border-gray-300 rounded-xl p-4 bg-white shadow hover:shadow-md transition-shadow duration-300">
@@ -81,6 +81,7 @@ export default async function Dashboard(){
                           alt="Imagem do post"
                           width={50}
                           height={50}
+                          quality={100}
                           className="w-full h-auto rounded-md mb-3"
                         />
                       )}

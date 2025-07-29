@@ -11,7 +11,6 @@ const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Ed
 const EditorContent = forwardRef(({ onChange, value }: { onChange: (val: string) => void, value: string }, ref) => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
 
-
   useImperativeHandle(ref, () => ({
     getContent: () => editorRef.current?.getContent() ?? ""
   }));
@@ -35,7 +34,52 @@ const EditorContent = forwardRef(({ onChange, value }: { onChange: (val: string)
           'bold italic forecolor | alignleft aligncenter ' +
           'alignright alignjustify | bullist numlist outdent indent | ' +
           'removeformat | help',
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        content_style: `
+          body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+            padding: 10px;
+          }
+          p {
+            margin: 0 0 16px 0;
+          }
+          h1, h2, h3, h4, h5, h6 {
+            margin: 24px 0 16px 0;
+            font-weight: bold;
+          }
+          img {
+            max-width: 100%;
+            height: auto;
+          }
+          ul, ol {
+            margin: 0 0 16px 0;
+            padding-left: 30px;
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 16px;
+          }
+          table, th, td {
+            border: 1px solid #ddd;
+          }
+          th, td {
+            padding: 8px;
+            text-align: left;
+          }
+        `,
+        // Garante que o HTML gerado seja semântico e limpo
+        valid_elements: '*[*]',
+        valid_styles: {
+          '*': 'color,text-align,font-size,font-weight,font-style,text-decoration,float,margin,margin-top,margin-right,margin-bottom,margin-left,padding,padding-top,padding-right,padding-bottom,padding-left'
+        },
+        // Remove span's desnecessários
+        extended_valid_elements: 'span[!class]',
+        convert_fonts_to_spans: false,
+        // Mantém classes importantes
+        keep_styles: true,
       }}
     />
   );

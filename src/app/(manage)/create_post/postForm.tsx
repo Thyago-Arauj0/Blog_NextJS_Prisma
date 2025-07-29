@@ -2,7 +2,7 @@
 
 import EditorContent from "@/components/EditorContent";
 import findAllCategory from "@/lib/category/findAllCategory";
-
+import Image from "next/image";
 import Form from "next/form";
 import { Category } from "@/types/types";
 import { useEffect, useState } from 'react';
@@ -79,6 +79,13 @@ export default function PostForm({initialData = {}, action, submitLabel = "Salva
         <input type="hidden" name="content" value={content} />
 
         <label htmlFor="image">Imagem:</label>
+        {/* Imagem atual */}
+        {initialData.imageUrl && (
+          <Image src={initialData.imageUrl} alt="Imagem atual" 
+          width={300}   // ajuste conforme precisar
+          height={200}  
+          className="mb-2 max-w-xs" />
+        )}
         <input
           type="file"
           id="image"
@@ -86,8 +93,11 @@ export default function PostForm({initialData = {}, action, submitLabel = "Salva
           accept="image/*"
           className="border-none outline-0 bg-gray-200 p-2 rounded-xl"
         />
-
         <label htmlFor="audio">Áudio:</label>
+        {/* Áudio atual */}
+        {initialData.audioUrl && (
+          <audio controls src={initialData.audioUrl} className="mb-2" />
+        )}
         <input
           type="file"
           id="audio"
@@ -95,8 +105,11 @@ export default function PostForm({initialData = {}, action, submitLabel = "Salva
           accept="audio/*"
           className="border-none outline-0 bg-gray-200 p-2 rounded-xl"
         />
-
         <label htmlFor="video">Vídeo:</label>
+        {/* Vídeo atual */}
+        {initialData.videoUrl && (
+          <video controls src={initialData.videoUrl} className="mb-2 max-w-xs" />
+        )}
         <input
           type="file"
           id="video"
@@ -104,6 +117,7 @@ export default function PostForm({initialData = {}, action, submitLabel = "Salva
           accept="video/*"
           className="border-none outline-0 bg-gray-200 p-2 rounded-xl"
         />
+
 
         <label htmlFor="categoryId">Categoria:</label>
         {categories.length > 0 && (
