@@ -23,24 +23,29 @@ const EditorContent = forwardRef(({ onChange, value }: { onChange: (val: string)
       onEditorChange={(content) => onChange(content)}
       init={{
         height: 500,
-        menubar: false,
+        menubar: true,
         language: 'pt_BR',
+        block_formats: 'Parágrafo=p; Cabeçalho 1=h1; Cabeçalho 2=h2; Cabeçalho 3=h3',
         plugins: [
           'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-          'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+          'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'autoresize'
         ],
-        toolbar: 'undo redo | blocks | ' +
-          'bold italic forecolor | alignleft aligncenter ' +
-          'alignright alignjustify | bullist numlist outdent indent | ' +
-          'removeformat | help',
+       toolbar: `
+          undo redo | blocks | bold italic forecolor backcolor | 
+          alignleft aligncenter alignright alignjustify | 
+          bullist numlist outdent indent | link image media table | 
+          code fullscreen preview | removeformat | help
+        `,
+        
         content_style: `
           body {
             font-family: Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
+            min-height: 400px !important;
+            font-size: 18px;
+            line-height: 1.4;
             margin: 0;
-            padding: 10px;
+            padding: 20px !important;
           }
           p {
             margin: 0 0 16px 0;

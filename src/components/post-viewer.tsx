@@ -101,13 +101,12 @@ export function PostViewer({ post }: PostViewerProps) {
             )}
 
             {/* Content */}
-          <div className="prose prose-lg max-w-none">
-              <div
+            <div
+                className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: post.content ?? "" }}
-                className="text-gray-700 leading-relaxed"
               />
-            </div>
-
+              <pre>{post.content}</pre>
+              
 
 
             {/* Audio */}
