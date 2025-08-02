@@ -40,27 +40,6 @@ export default async function HomePage() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <header className="bg-gradient-to-r from-red-500 to-red-600 shadow-lg">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-red-500 font-bold text-lg">M</span>
-              </div>
-              <h1 className="text-white text-2xl font-bold">marketilize</h1>
-            </div>
-            <Button
-              variant="secondary"
-              className="bg-white text-red-600 hover:bg-gray-100 font-semibold px-6 shadow-md transition-all duration-200 hover:shadow-lg"
-            >
-              Redes sociais
-            </Button>
-          </div>
-        </div>
-      </header>
-
-
       <main className="container mx-auto px-6 py-12">
         {/* Recentes Section */}
         <section className="mb-16">
@@ -74,7 +53,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Featured Post */}
             <Link href={`/post/${recentPosts[0].id}`} key={recentPosts[0].id} className="lg:col-span-1">
-              <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 group rounded-none py-0">
+              <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 group rounded-none border-none shadow-none py-0">
                 <CardHeader className="relative h-64 w-full">
                   {recentPosts[0].image ? (
                     <Image
@@ -83,7 +62,7 @@ export default async function HomePage() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       quality={100}
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover rounded p-2 group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-400">
@@ -128,7 +107,7 @@ export default async function HomePage() {
                 <Link href={`/post/${post.id}`} key={post.id} >
                 <Card
                   key={index}
-                  className="overflow-hidden  hover:shadow-lg transition-all duration-200 group cursor-pointer rounded-none py-0"
+                  className="overflow-hidden  hover:shadow-lg transition-all duration-200 group cursor-pointer rounded-none border-none shadow-none py-0"
                 >
                   <div className="flex flex-col">
                     <div className="relative h-35 w-full">
@@ -139,7 +118,7 @@ export default async function HomePage() {
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           quality={100}
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="object-cover rounded p-2 group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-gray-400 bg-amber-200">
@@ -215,104 +194,5 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
-
-      <footer className="bg-gray-900 text-white min-w-full">
-        <div className="container mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">M</span>
-                </div>
-                <h3 className="text-2xl font-bold">marketilize</h3>
-              </div>
-              <p className="text-gray-400 mb-6 max-w-md">
-                Sua fonte confiável para estratégias de marketing digital, desenvolvimento web e crescimento de negócios
-                online.
-              </p>
-              <div className="flex space-x-4">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-gray-600 text-gray-300 hover:bg-red-500 hover:border-red-500 bg-transparent"
-                >
-                  Facebook
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-gray-600 text-gray-300 hover:bg-red-500 hover:border-red-500 bg-transparent"
-                >
-                  Twitter
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-gray-600 text-gray-300 hover:bg-red-500 hover:border-red-500 bg-transparent"
-                >
-                  LinkedIn
-                </Button>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Categorias</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Marketing Digital
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Desenvolvimento Web
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    SEO
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Redes Sociais
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Empresa</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Sobre
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Contato
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Política de Privacidade
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-red-400 transition-colors">
-                    Termos de Uso
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Marketilize. Todos os direitos reservados.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
   )
 }
