@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Button } from "@/components/ui/button"
+import Link from "next/link";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,16 +29,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
          <div className="flex flex-col  justify-center h-screen gap-4">
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-              <header className="bg-gradient-to-r from-red-500 to-red-600 shadow-lg">
+            <div className="min-h-screen ">
+              <header className="bg-gray-900 shadow-lg">
                 <div className="container mx-auto px-6 py-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
+                    <Link href={'/'} className="flex items-center space-x-2">
                       <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
                         <span className="text-red-500 font-bold text-lg">M</span>
                       </div>
                       <h1 className="text-white text-2xl font-bold">marketilize</h1>
-                    </div>
+                    </Link>
                     <Button
                       variant="secondary"
                       className="bg-white text-red-600 hover:bg-gray-100 font-semibold px-6 shadow-md transition-all duration-200 hover:shadow-lg"
@@ -47,7 +48,9 @@ export default function RootLayout({
                   </div>
                 </div>
               </header>
+              <main className="min-h-screen ">
               {children}
+              </main>
               <footer className="bg-gray-900 text-white min-w-full">
                 <div className="container mx-auto px-6 py-16">
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

@@ -4,14 +4,13 @@ import findAllPost from "@/lib/post/findAllPost"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Search, Calendar, User, ArrowRight, Globe } from "lucide-react"
+import {  Calendar, User, ArrowRight, Globe } from "lucide-react"
+import slugify from 'slugify'
+import SearchComponent from "@/components/searchComponent"
 
 export default async function HomePage() {
-
-  
   const categories = await findAllCategory()
   const posts = await findAllPost()
 
@@ -34,20 +33,30 @@ export default async function HomePage() {
 
 
   const categoriesArray = categories.map(category=>({
-    id: category.id, name: category.name, icon: Globe, color: "bg-blue-500", posts: 24
+    id: category.id, name: category.name, icon: Globe, color: "bg-blue-500", posts:  posts.filter(post => post.categoryId === category.id).length
   }))
 
 
 
   return (
-      <main className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 py-12">
+
+        
+        {/* Search Section */}
+        <section className="my-8">
+          <SearchComponent allPosts={posts}/>
+        </section>
+        <hr />
+
         {/* Recentes Section */}
-        <section className="mb-16">
+        <section className="my-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Recentes</h2>
+            <Link href={'/recentes'}>
             <Button variant="ghost" className="text-red-600 hover:text-red-700">
               Ver todos <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -142,57 +151,40 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Search Section */}
-        <section className="mb-16">
-          <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-2xl px-8 py-16 text-center shadow-xl">
-            <h2 className="text-white text-3xl font-bold mb-4">Pesquise aqui</h2>
-            <p className="text-red-100 mb-8 max-w-md mx-auto">
-              Encontre artigos, tutoriais e dicas sobre marketing digital e desenvolvimento web
-            </p>
-            <div className="max-w-md mx-auto relative">
-              <Input
-                type="text"
-                placeholder="Digite sua busca..."
-                className="bg-white border-0 h-14 pl-12 pr-4 text-lg shadow-lg focus:shadow-xl transition-shadow"
-              />
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            </div>
-          </div>
-        </section>
 
         {/* Categorias Section */}
         <section className="mb-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Categorias</h2>
-            <Button variant="ghost" className="text-red-600 hover:text-red-700">
-              Ver todas <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categoriesArray.map((category, index) => {
               const IconComponent = category.icon
+              const nameParams = slugify( category.name )
               return (
-                <Card
-                  key={index}
-                  className="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <CardContent className="p-6 text-center">
-                    <div
-                      className={`${category.color} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200`}
-                    >
-                      <IconComponent className="h-8 w-8 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
-                      {category.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm">{category.posts} artigos</p>
-                  </CardContent>
-                </Card>
+                  <Card
+                    key={index}
+                    className="group cursor-pointer border-0 shadow-none hover:bg-gray-100 transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <Link href={`/${nameParams}`}>
+                      <CardContent className="p-6 py-0 text-center">
+                        <div
+                          className={`${category.color} w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200`}
+                        >
+                          <IconComponent className="h-5 w-5 text-white" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                          {category.name}
+                        </h3>
+                        <p className="text-gray-600 text-sm">{category.posts} artigos</p>
+                      </CardContent>
+                    </Link>
+                  </Card>
               )
             })}
           </div>
         </section>
-      </main>
+      </div>
   )
 }
