@@ -8,9 +8,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {  Calendar, User, ArrowRight, Globe } from "lucide-react"
 import slugify from 'slugify'
-import SearchComponent from "@/components/searchComponent"
+import Search from "@/components/search"
 
-export default async function HomePage() {
+export default async function Home() {
   const categories = await findAllCategory()
   const posts = await findAllPost()
 
@@ -45,7 +45,7 @@ export default async function HomePage() {
   return (
     <>
       <section>
-        <SearchComponent allPosts={posts}/>
+        <Search allPosts={posts}/>
       </section>
 
       <div className="container mx-auto px-6 pb-12">
@@ -207,8 +207,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-
-        <section className="mb-16">
+        <section className="mb-16 p-8">
           <div className="mb-12">
             <h2 className="text-4xl font-bold text-red-400 mb-2">Categorias</h2>
             <p className="text-slate-100">Explore nosso conteúdo por temas</p>
@@ -245,7 +244,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="mb-16">
+        <section className="mb-16 p-8">
           <div className="mb-12">
             <h2 className="text-4xl font-bold text-red-400 mb-2">Outros Posts</h2>
             <p className="text-slate-100">Explore mais</p>

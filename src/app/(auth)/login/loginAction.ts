@@ -2,6 +2,8 @@
 
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { signIn } from "../../../../auth";
+import Cookies from 'js-cookie';
+
 
 export default async function loginAction(
   prevState: {message?: string; success: boolean} | null,
@@ -22,6 +24,8 @@ export default async function loginAction(
       return {message: "Dados de login incorretos!", success: false}
     }
 
+    Cookies.set('isAdmin', "true", { expires: 7 });
+    Cookies.set('token', 'dummy-token', { expires: 7 });
     return {message: "Error!", success: false}
   }
 

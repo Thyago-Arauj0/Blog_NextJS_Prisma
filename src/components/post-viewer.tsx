@@ -119,9 +119,9 @@ export function PostViewer({ post, allPosts }: PostViewerProps) {
             <hr />
   
           {post.audioUrl && (
-              <div className="bg-gradient-to-r from-red-500 to-red-600 shadow-lg p-4 rounded">
+              <div className="bg-black shadow-lg p-4 rounded">
                 <div className="space-y-2">
-                  <audio controls src={post.audioUrl} className="w-full max-w-md">
+                  <audio controls src={post.audioUrl} className="w-full max-w-md mx-auto">
                     Seu navegador não suporta o elemento de áudio.
                   </audio>
                 </div>
@@ -134,7 +134,7 @@ export function PostViewer({ post, allPosts }: PostViewerProps) {
                   <video
                     controls
                     src={post.videoUrl}
-                    className="w-full max-w-2xl rounded-lg shadow-sm"
+                    className="w-full max-w-2xl rounded-lg shadow-sm mx-auto"
                   >
                     Seu navegador não suporta o elemento de vídeo.
                   </video>
